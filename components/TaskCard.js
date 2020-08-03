@@ -6,7 +6,7 @@ import { Button, Avatar, Card } from "react-native-paper";
 
 function TaskCard({ tasks, setData }) {
   return (
-    <View style={styles.container}>
+    <View style={{ flex: 1 }}>
       {tasks ? (
         tasks.map((item) => (
           <View key={item.id}>
@@ -31,15 +31,20 @@ function TaskCard({ tasks, setData }) {
                       <Text style={{ fontSize: 17 }}>{item.title}</Text>
                     </View>
                     <View style={styles.timerContainer}>
-                      <Text style={{ marginLeft: 2, fontSize: 11 }}>
+                      <Text
+                        style={{
+                          marginLeft: 2,
+                          fontSize: 11,
+                        }}
+                      >
                         {item.createdOn}
                       </Text>
-                      <Avatar.Icon
+                      {/* <Avatar.Icon
                         icon="timer"
                         size={30}
                         style={{ marginLeft: 5 }}
                       />
-                      <Text style={{ marginLeft: 7 }}>clock details here</Text>
+                      <Text style={{ marginLeft: 7 }}>clock details here</Text> */}
                     </View>
                   </View>
                 </View>
@@ -79,20 +84,16 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   card: {
-    margin: 10,
+    marginHorizontal: 10,
+    marginVertical: 7,
     borderRadius: 10,
+    elevation: 3,
   },
-  swipe: {
-    backgroundColor: "red",
-  },
+
   editButton: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  modal: {
-    flex: 1,
-    backgroundColor: "lightgreen",
   },
 });
 

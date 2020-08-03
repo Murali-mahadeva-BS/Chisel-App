@@ -1,96 +1,179 @@
 import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
-import { Text, Card, IconButton, Colors, Button } from "react-native-paper";
-function DatePicker({ hideModal }) {
+import { Text, Card, Button, useTheme } from "react-native-paper";
+import { connect } from "react-redux";
+import moment from "moment";
+import DateButton from "./DateButton";
+import YearButton from "./YearButton";
+import MonthButton from "./MonthButton";
+import { getStats } from "../redux/actions";
+
+function DatePicker({ dates, getStats, hideDatePicker }) {
+  const { colors } = useTheme();
   const [msgYear, setmsgYear] = useState(true);
   const [msgMonth, setmsgMonth] = useState(false);
   const [msgDate, setmsgDate] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  // const [finalDate, setFinalDate] = useState(null);
+  const [datesList, setDatesList] = useState([]);
+  const [monthsList, setMonthsList] = useState([]);
+  const [yearsList, setYearsList] = useState([]);
 
-  const yearClicked = () => {
+  const yearClicked = (pickedYear) => {
+    // selectedYear = pickedYear;
+    const tempArray = [];
+    dates.map((item) => {
+      let splitDate = item.split(" ");
+      let month = splitDate[0];
+      let year = splitDate[2];
+      if (year == pickedYear && !tempArray.includes(month)) {
+        tempArray.push(month);
+      }
+    });
+    setMonthsList(tempArray);
     setmsgYear(false);
     setmsgMonth(true);
+    setSelectedYear(pickedYear);
   };
-  const monthClicked = () => {
+  const monthClicked = (pickedMonth) => {
+    console.log("month clicked");
+    const tempArray = [];
+    dates.map((item) => {
+      let splitDate = item.split(" ");
+      let year = splitDate[2];
+      let month = splitDate[0];
+      let date = splitDate[1].replace(/\D/g, "");
+
+      if (year == selectedYear && month == pickedMonth) {
+        tempArray.push(date);
+      }
+    });
+    setDatesList(tempArray);
     setmsgMonth(false);
     setmsgDate(true);
+    setSelectedMonth(pickedMonth);
   };
 
-  const dateCliked = () => {
+  const dateCliked = (pickedDate) => {
     setmsgDate(false);
+    setSelectedDate(pickedDate);
+    const getSuffix = (pickedDate) => {
+      if (pickedDate > 3 && pickedDate < 21) return "th";
+      switch (pickedDate % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    };
+    const suffix = getSuffix(pickedDate);
+    const finalDate = `${selectedMonth} ${pickedDate}${suffix} ${selectedYear}`;
+    console.log("final date" + finalDate);
+    getStats(finalDate);
+    // setFinalDate(`${selectedMonth} ${selectedDate} ${selectedYear}`);
   };
+
+  if (yearsList.length == 0) {
+    const tempArray = [];
+    dates.map((item) => {
+      // get the list of years from dates
+      let splitDate = item.split(" ");
+
+      let year = splitDate[2];
+      if (!tempArray.includes(year)) {
+        tempArray.push(year);
+      }
+    });
+    setYearsList(tempArray);
+  }
+
   return (
-    <View style={{ flex: 1, justifyContent: "flex-end" }}>
-      <View style={styles.container}>
-        <View style={styles.selectedDate}>
-          <View style={styles.dateText}>
-            <Text>selected date</Text>
-          </View>
-          <Button icon="close" onPress={hideModal}></Button>
-        </View>
-        <View style={styles.dateButtonContainer}>
-          <ScrollView
-            horizontal={true}
-            scrollEventThrottle={16}
-            showsHorizontalScrollIndicator={false}
-          >
-            <TouchableOpacity
-              onPress={() => {
-                dateCliked();
-              }}
-              activeOpacity={0.4}
+    <View style={styles.container}>
+      <View style={styles.selectedDate}>
+        <Text style={{ color: "whitesmoke" }}>Selected Date </Text>
+        <View
+          style={{
+            alignItems: "flex-start",
+            flex: 1,
+          }}
+        >
+          {selectedYear || selectedMonth || selectedDate ? (
+            <View
+              style={{ ...styles.dateText, backgroundColor: colors.primary }}
             >
-              <View style={styles.date}>
-                <Text style={{ fontSize: 22 }}>25</Text>
-              </View>
-            </TouchableOpacity>
+              <Text>
+                {selectedDate} {selectedMonth} {selectedYear}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+        <View style={{ alignItems: "flex-end" }}>
+          <Button
+            icon="close"
+            onPress={hideDatePicker}
+            style={{ alignItems: "center", justifyContent: "center" }}
+          ></Button>
+        </View>
+      </View>
+
+      <View
+        style={{ ...styles.dateButtonContainer, borderColor: colors.primary }}
+      >
+        <ScrollView
+          horizontal={true}
+          scrollEventThrottle={16}
+          showsHorizontalScrollIndicator={false}
+        >
+          {datesList &&
+            datesList.map((date) => (
+              <DateButton dateCliked={dateCliked} date={date} key={date} />
+            ))}
+        </ScrollView>
+      </View>
+
+      <View
+        style={{
+          marginVertical: 7,
+          flexDirection: "row",
+          justifyContent: "space-around",
+        }}
+      >
+        {/* year container */}
+        <View style={{ ...styles.yearContainer, borderColor: colors.primary }}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {yearsList &&
+              yearsList.map((year) => (
+                <YearButton yearClicked={yearClicked} year={year} key={year} />
+              ))}
           </ScrollView>
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-around",
-          }}
-        >
-          {/* year contaier */}
-          <View style={styles.yearContainer}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <TouchableOpacity
-                onPress={() => {
-                  yearClicked();
-                }}
-                activeOpacity={0.4}
-              >
-                <Card style={styles.buttonCard}>
-                  <Text style={{ fontSize: 18 }}>2020</Text>
-                </Card>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
-
-          {/* month container */}
-          <View style={styles.yearContainer}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <TouchableOpacity
-                onPress={() => {
-                  monthClicked();
-                }}
-                activeOpacity={0.4}
-              >
-                <Card style={styles.buttonCard}>
-                  <Text style={{ fontSize: 18 }}>july</Text>
-                </Card>
-              </TouchableOpacity>
-            </ScrollView>
-          </View>
+        {/* month container */}
+        <View style={{ ...styles.yearContainer, borderColor: colors.primary }}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {monthsList &&
+              monthsList.map((month) => (
+                <MonthButton
+                  monthClicked={monthClicked}
+                  month={month}
+                  key={month}
+                />
+              ))}
+          </ScrollView>
         </View>
-        <View style={styles.clickMessage}>
-          {msgYear && <Text>click year</Text>}
-          {msgMonth && <Text>click month</Text>}
-          {msgDate && !msgMonth && !msgYear && <Text>click date</Text>}
-        </View>
+      </View>
+      <View style={styles.clickMessage}>
+        {msgYear && <Text style={{ color: "whitesmoke" }}>click year</Text>}
+        {msgMonth && <Text style={{ color: "whitesmoke" }}>click month</Text>}
+        {msgDate && !msgMonth && !msgYear && (
+          <Text style={{ color: "whitesmoke" }}>click date</Text>
+        )}
       </View>
     </View>
   );
@@ -98,67 +181,49 @@ function DatePicker({ hideModal }) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 250,
-    backgroundColor: "honeydew",
-    padding: 10,
+    height: 240,
+    backgroundColor: "#323232",
+    padding: 5,
   },
-  date: {
-    backgroundColor: "white",
-    borderColor: "crimson",
-    borderWidth: 2,
-    width: 50,
-    height: 50,
-    justifyContent: "center",
-    alignItems: "center",
-    borderRadius: 100,
-    marginHorizontal: 5,
-    backgroundColor: "lightpink",
-  },
+
   dateButtonContainer: {
-    width: 350,
+    minHeight: 62,
     marginHorizontal: 20,
-    borderColor: "crimson",
-    borderWidth: 1,
+
     borderRadius: 50,
     padding: 5,
-    backgroundColor: "honeydew",
+    borderWidth: 2,
   },
   yearContainer: {
     width: 150,
     height: 90,
     padding: 5,
-    borderColor: "crimson",
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 5,
   },
-  buttonCard: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 2,
-    borderColor: "crimson",
-    borderWidth: 1,
-    borderRadius: 5,
-    backgroundColor: "lightpink",
-  },
+
   clickMessage: {
     justifyContent: "center",
     alignItems: "center",
   },
   selectedDate: {
     flexDirection: "row",
-    // backgroundColor: "lightgreen",
-    justifyContent: "space-between",
-    alignItems: "center",
   },
-  secContainer: {
-    // flex: 1,
-    backgroundColor: "lightgreen",
-  },
+
   dateText: {
-    backgroundColor: "lightpink",
     borderRadius: 20,
     paddingHorizontal: 8,
-    borderWidth: 1,
   },
 });
-export default DatePicker;
+
+const mapStateToProps = (state) => {
+  return {
+    dates: state.taskReducer.dates,
+  };
+};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getStats: (finalDate) => dispatch(getStats(finalDate)),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(DatePicker);

@@ -13,8 +13,10 @@ import {
   STRIKE_TASK_FAILURE,
   UNDO_TASK_SUCCESS,
   UNDO_TASK_FAILURE,
+  GET_STATS_SUCCESS,
 } from "./taskTypes";
 import { AsyncStorage } from "react-native";
+import moment from "moment";
 
 const state = {
   references: {
@@ -34,6 +36,7 @@ export const removeStorageData = () => async (dispatch) => {
   };
   const referencesVal = JSON.stringify(references);
   const completedTasksVal = JSON.stringify([]);
+
   await AsyncStorage.multiSet([
     ["references", referencesVal],
     ["tasks", tasksVal],
@@ -94,10 +97,15 @@ export const initialLoadData = () => async (dispatch) => {
     });
 };
 export const addTask = ({ title, description, date }) => async (dispatch) => {
+  console.log("in add task " + date);
   const id = state.references.refID + 1;
   state.references.refID = id;
   if (!state.references.startDate) {
     state.references.startDate = date;
+  }
+
+  if (!state.dates.includes(date)) {
+    state.dates.push(date);
   }
 
   const finalTask = {
@@ -108,11 +116,30 @@ export const addTask = ({ title, description, date }) => async (dispatch) => {
   };
   state.tasks.push(finalTask);
 
+  const completedTasksList = [];
+  const pendingTasksList = [];
+  state.tasks.map((item) => {
+    if (item.createdOn == date) {
+      pendingTasksList.push(item);
+    }
+  });
+  state.completedTasks.map((item) => {
+    if (item.createdOn == date) {
+      completedTasksList.push(item);
+    }
+  });
+
+  const data = {
+    tasks: state.tasks,
+    dates: state.dates,
+    completedTasksList,
+    pendingTasksList,
+  };
   await AsyncStorage.setItem("tasks", JSON.stringify(state.tasks))
     .then((val) => {
       dispatch({
         type: ADD_TASK_SUCCESS,
-        payload: state.tasks,
+        payload: data,
       });
     })
     .catch((err) => {
@@ -185,7 +212,33 @@ export const strikeTask = (id) => async (dispatch) => {
   state.tasks.splice(delIndex, 1);
   const tasks = state.tasks;
   const completedTasks = state.completedTasks;
-  const data = { tasks, completedTasks };
+
+  state.completedTasks.map((item) => {
+    if (!state.dates.includes(item.createdOn)) {
+      state.dates.push(item.createdOn);
+    }
+  });
+  const dates = state.dates;
+
+  const completedTasksList = [];
+  const pendingTasksList = [];
+  state.tasks.map((item) => {
+    if (item.createdOn == date) {
+      pendingTasksList.push(item);
+    }
+  });
+  state.completedTasks.map((item) => {
+    if (item.createdOn == date) {
+      completedTasksList.push(item);
+    }
+  });
+  const data = {
+    tasks,
+    completedTasks,
+    dates,
+    completedTasksList,
+    pendingTasksList,
+  };
   await AsyncStorage.setItem("tasks", JSON.stringify(state.tasks))
     .then((val) => {
       dispatch({
@@ -235,4 +288,24 @@ export const undoTask = (id) => async (dispatch) => {
     .catch((err) => {
       console.log(err);
     });
+};
+
+export const getStats = (date) => (dispatch) => {
+  const completedTasksList = [];
+  const pendingTasksList = [];
+  state.tasks.map((item) => {
+    if (item.createdOn == date) {
+      pendingTasksList.push(item);
+    }
+  });
+  state.completedTasks.map((item) => {
+    if (item.createdOn == date) {
+      completedTasksList.push(item);
+    }
+  });
+  const data = { completedTasksList, pendingTasksList, date };
+  return dispatch({
+    type: GET_STATS_SUCCESS,
+    payload: data,
+  });
 };

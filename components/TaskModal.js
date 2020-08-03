@@ -122,26 +122,22 @@ function TaskModal({
             {showUpdateCard && (
               <View>
                 <Card style={styles.updateCard}>
-                  <View>
-                    <TextInput
-                      style={styles.titleInput}
-                      label="Task"
-                      mode="outlined"
-                      value={title}
-                      onChangeText={(text) => setTitle(text)}
-                    />
-                  </View>
-                  <View>
-                    <TextInput
-                      style={styles.descriptionInput}
-                      label="Description *Optional*"
-                      mode="outlined"
-                      multiline={true}
-                      numberOfLines={5}
-                      value={description}
-                      onChangeText={(text) => setDescription(text)}
-                    />
-                  </View>
+                  <TextInput
+                    style={styles.titleInput}
+                    label="Task"
+                    mode="outlined"
+                    value={title}
+                    onChangeText={(text) => setTitle(text)}
+                  />
+                  <TextInput
+                    style={styles.descriptionInput}
+                    label="Description *Optional*"
+                    mode="outlined"
+                    multiline={true}
+                    numberOfLines={5}
+                    value={description}
+                    onChangeText={(text) => setDescription(text)}
+                  />
                 </Card>
 
                 <View style={styles.taskUpdateButton}>
@@ -177,7 +173,7 @@ function TaskModal({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "lightgrey",
+    backgroundColor: "lightgray",
     padding: 10,
   },
   cardContainer: {
@@ -210,42 +206,25 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: "whitesmoke",
     backgroundColor: "lightpink",
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 2,
-    //   height: 8,
-    // },
-    // shadowOpacity: 0.25,
-    // shadowRadius: 10.84,
-
-    // elevation: 1,
   },
   title: {
-    // backgroundColor: "lightgreen",
     flex: 1,
     paddingVertical: 7,
   },
   taskUpdateButton: {
     flexDirection: "row",
     justifyContent: "space-around",
-
-    // backgroundColor: "lightgreen",
+    marginTop: 7,
   },
   updateCardButton: {
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderRadius: 10,
     width: 170,
     alignSelf: "center",
   },
   updateCard: {
     marginTop: 10,
     borderRadius: 10,
-    padding: 10,
-  },
-  avoidView: {
-    // flex: 1,
-    paddingBottom: 10,
-    backgroundColor: "lightgreen",
+    padding: 20,
   },
 });
 

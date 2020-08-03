@@ -9,12 +9,15 @@ import {
   INITIAL_LOAD_DATA_SUCCESS,
   STRIKE_TASK_SUCCESS,
   UNDO_TASK_SUCCESS,
+  GET_STATS_SUCCESS,
 } from "./taskTypes";
 const initialstate = {
   references: {},
   tasks: [],
   completedTasks: [],
   dates: [],
+  completedTasksList: [],
+  pendingTasksList: [],
 };
 const taskReducer = (state = initialstate, action) => {
   switch (action.type) {
@@ -29,20 +32,17 @@ const taskReducer = (state = initialstate, action) => {
       };
 
     case ADD_TASK_SUCCESS:
-      state.tasks = action.payload;
-      state.tasks.map((item) => {
-        if (!state.dates.includes(item.createdOn)) {
-          state.dates.push(item.createdOn);
-        }
-      });
-      state.completedTasks.map((item) => {
-        if (!state.dates.includes(item.createdOn)) {
-          state.dates.push(item.createdOn);
-        }
-      });
+      state.tasks = action.payload.tasks;
+      state.dates = action.payload.dates;
+      state.completedTasksList = action.payload.completedTasksList;
+      state.pendingTasksList = action.payload.pendingTasksList;
+
       return {
         ...state,
-        tasks: [...action.payload],
+        tasks: [...action.payload.tasks],
+        dates: [...action.payload.dates],
+        completedTasksList: [...action.payload.completedTasksList],
+        pendingTasksList: [...action.payload.pendingTasksList],
       };
 
     case DELETE_TASK_SUCCESS:
@@ -66,10 +66,17 @@ const taskReducer = (state = initialstate, action) => {
     case STRIKE_TASK_SUCCESS:
       state.tasks = action.payload.tasks;
       state.completedTasks = action.payload.completedTasks;
+      state.dates = action.payload.dates;
+      state.completedTasksList = action.payload.completedTasksList;
+      state.pendingTasksList = action.payload.pendingTasksList;
+
       return {
         ...state,
         tasks: [...action.payload.tasks],
         completedTasks: [...action.payload.completedTasks],
+        dates: [...action.payload.dates],
+        completedTasksList: [...action.payload.completedTasksList],
+        pendingTasksList: [...action.payload.pendingTasksList],
       };
     case UNDO_TASK_SUCCESS:
       state.tasks = action.payload.tasks;
@@ -79,7 +86,13 @@ const taskReducer = (state = initialstate, action) => {
         tasks: [...action.payload.tasks],
         completedTasks: [...action.payload.completedTasks],
       };
-
+    case GET_STATS_SUCCESS:
+      state.completedTasksList = action.payload.completedTasksList;
+      state.pendingTasksList = action.payload.pendingTasksList;
+      return {
+        ...state,
+        selectedDate: action.payload.date,
+      };
     default:
       return state;
   }

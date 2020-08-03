@@ -1,5 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchTask, setTask } from "../redux/actions";
 import { Modal, Portal, Text, Button, Provider } from "react-native-paper";
@@ -10,6 +10,9 @@ function TestComp({ tasks, completedTasks, references, dates }) {
   // const diffDays = currentDate.diff(startDate, "days");
   // console.log(currentDate);
   // console.log(moment(currentDate).format("D MMMM YYYY"));
+  useState(() => {
+    console.log("runing");
+  }, []);
   return (
     <View>
       <Text>{JSON.stringify(references)}</Text>

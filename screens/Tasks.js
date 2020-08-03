@@ -70,8 +70,6 @@ function Tasks({ undoTask }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 5,
-    // backgroundColor: "lightgreen",
   },
 });
 
