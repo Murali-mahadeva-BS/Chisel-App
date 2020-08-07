@@ -11,12 +11,20 @@ Offline Todo app, Provides statistics of all tasks created and completed.
 - React navigation
 
 ## Preview
-
-![Tasks page](./Screenshots/1.png)
-![Tasks Create page](./Screenshots/2.png)
-![Statistics page](./Screenshots/3.png)
-![List of completed and pending Tasks in Stats page](./Screenshots/4.png)
-![Theme options](./Screenshots/5.png)
+<img src="./Screenshots/1.png" alt="Task list screen"
+	 width="350"  />
+  
+  <img src="./Screenshots/2.png" alt="Create Tasks Screen"
+	 width="350"  />
+  
+  <img src="./Screenshots/3.png" alt="Statistics screen"
+	 width="350"  />
+  
+  <img src="./Screenshots/4.png" alt="List of completed and pending Tasks in Stats page"
+	 width="350"  />
+  
+  <img src="./Screenshots/5.png" alt="Theme"
+	 width="350"  />
 
 ## Future developments
 
