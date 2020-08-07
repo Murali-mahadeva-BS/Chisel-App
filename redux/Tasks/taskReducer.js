@@ -10,6 +10,8 @@ import {
   STRIKE_TASK_SUCCESS,
   UNDO_TASK_SUCCESS,
   GET_STATS_SUCCESS,
+  SELECT_THEME_SUCCESS,
+  GET_THEME_SUCCESS,
 } from "./taskTypes";
 const initialstate = {
   references: {},
@@ -18,6 +20,7 @@ const initialstate = {
   dates: [],
   completedTasksList: [],
   pendingTasksList: [],
+  themeColor: "",
 };
 const taskReducer = (state = initialstate, action) => {
   switch (action.type) {
@@ -26,9 +29,11 @@ const taskReducer = (state = initialstate, action) => {
       state.tasks = action.payload.parseTasks;
       state.completedTasks = action.payload.parseCompletedTasks;
       state.dates = action.payload.dates;
+      state.themeColor = action.payload.parseThemeColor;
       return {
         ...state,
         tasks: [...action.payload.parseTasks],
+        themeColor: action.payload.parseThemeColor,
       };
 
     case ADD_TASK_SUCCESS:
@@ -92,6 +97,16 @@ const taskReducer = (state = initialstate, action) => {
       return {
         ...state,
         selectedDate: action.payload.date,
+      };
+    case SELECT_THEME_SUCCESS:
+      state.themeColor = action.payload;
+      return {
+        ...state,
+        themeColor: action.payload,
+      };
+    case GET_THEME_SUCCESS:
+      return {
+        themeColor: action.payload,
       };
     default:
       return state;

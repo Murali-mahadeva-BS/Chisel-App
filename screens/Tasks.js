@@ -24,18 +24,15 @@ function Tasks({ undoTask }) {
   const [snackbarVisible, setSnackVisible] = useState(false);
 
   const toggleSnackbar = () => {
-    console.log("toggle snackbar calld");
     setSnackVisible(!snackbarVisible);
   };
 
   const dismissSnackbar = () => setSnackVisible(false);
 
   const handleUndo = () => {
-    console.log("handle undo clicked...");
     undoTask(id);
   };
 
-  console.log("snackbar status " + JSON.stringify(snackbarVisible));
   return (
     <View style={styles.container}>
       <Modal visible={visible} onDismiss={hideModal} animationType="slide">
@@ -56,7 +53,6 @@ function Tasks({ undoTask }) {
         action={{
           label: "Undo",
           onPress: () => {
-            console.log("undo clicked");
             handleUndo();
           },
         }}

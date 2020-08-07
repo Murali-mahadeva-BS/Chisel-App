@@ -5,6 +5,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
+import { IconsPath } from "../assets/Index";
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchSingleTask, updateTask, strikeTask } from "../redux/actions";
@@ -14,8 +15,9 @@ import {
   Card,
   Avatar,
   IconButton,
-  Colors,
+  useTheme,
   TextInput,
+  Colors,
 } from "react-native-paper";
 
 function TaskModal({
@@ -27,6 +29,7 @@ function TaskModal({
   strikeTask,
   toggleSnackbar,
 }) {
+  const { colors } = useTheme();
   const [showUpdateCard, setShowUpdateCard] = useState(false);
 
   const [title, setTitle] = useState("");
@@ -85,12 +88,12 @@ function TaskModal({
               <View style={styles.cardContainer}>
                 <View style={styles.iconContainer}>
                   <Avatar.Icon
-                    icon="folder"
+                    icon={IconsPath[task.icon]}
                     size={50}
                     style={{ marginVertical: 5 }}
                   />
                   <Text style={{ fontSize: 12, marginVertical: 2 }}>
-                    skills here
+                    {task.category}
                   </Text>
                   <Text
                     style={{ marginLeft: 2, fontSize: 11, marginVertical: 2 }}
@@ -109,12 +112,20 @@ function TaskModal({
             {!showUpdateCard && (
               <View style={styles.taskUpdateButton}>
                 <Card style={styles.updateCardButton}>
-                  <Button onPress={() => setShowUpdateCard(true)}>
+                  <Button
+                    onPress={() => setShowUpdateCard(true)}
+                    color={colors.secondary}
+                  >
                     edit task
                   </Button>
                 </Card>
                 <Card style={styles.updateCardButton}>
-                  <Button onPress={() => handleStrike()}>strike task</Button>
+                  <Button
+                    onPress={() => handleStrike()}
+                    color={colors.secondary}
+                  >
+                    strike task
+                  </Button>
                 </Card>
               </View>
             )}
@@ -142,12 +153,17 @@ function TaskModal({
 
                 <View style={styles.taskUpdateButton}>
                   <Card style={styles.updateCardButton}>
-                    <Button onPress={() => setShowUpdateCard(false)}>
+                    <Button
+                      onPress={() => setShowUpdateCard(false)}
+                      color={colors.secondary}
+                    >
                       cancel
                     </Button>
                   </Card>
                   <Card style={styles.updateCardButton}>
-                    <Button onPress={handleUpdate}>update task</Button>
+                    <Button onPress={handleUpdate} color={colors.secondary}>
+                      update task
+                    </Button>
                   </Card>
                 </View>
               </View>

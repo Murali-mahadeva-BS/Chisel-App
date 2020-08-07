@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { deleteTask } from "../redux/actions";
 import { Button, Avatar, Card } from "react-native-paper";
+import { IconsPath } from "../assets/Index";
 
 function TaskCard({ tasks, setData }) {
   return (
@@ -17,8 +18,8 @@ function TaskCard({ tasks, setData }) {
               <Card style={styles.card}>
                 <View style={styles.cardContainer}>
                   <View style={styles.iconContainer}>
-                    <Avatar.Icon icon="folder" size={50} />
-                    <Text style={{ fontSize: 12 }}>skills here</Text>
+                    <Avatar.Icon icon={IconsPath[item.icon]} size={60} />
+                    <Text style={{ fontSize: 12 }}>{item.category}</Text>
                   </View>
 
                   <View style={styles.content}>
@@ -53,9 +54,14 @@ function TaskCard({ tasks, setData }) {
           </View>
         ))
       ) : (
-        <View>
-          <Text>NO tasks</Text>
-        </View>
+        <Card
+          style={{
+            margin: 10,
+            elevation: 3,
+          }}
+        >
+          <Card.Title title="No Tasks Created" />
+        </Card>
       )}
     </View>
   );

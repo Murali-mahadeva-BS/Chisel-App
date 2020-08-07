@@ -1,16 +1,17 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Button, Avatar, Card, Text } from "react-native-paper";
+import { IconsPath } from "../assets/Index";
 
-function StatsTaskCard({ id, title, createdOn }) {
+function StatsTaskCard({ id, title, createdOn, category, icon }) {
   return (
     <View style={styles.container}>
       <View key={id}>
         <Card style={styles.card}>
           <View style={styles.cardContainer}>
             <View style={styles.iconContainer}>
-              <Avatar.Icon icon="folder" size={50} />
-              <Text style={{ fontSize: 12 }}>skills here</Text>
+              <Avatar.Icon icon={IconsPath[icon]} size={50} />
+              <Text style={{ fontSize: 12 }}>{category}</Text>
             </View>
 
             <View style={styles.content}>
@@ -24,8 +25,8 @@ function StatsTaskCard({ id, title, createdOn }) {
               </View>
               <View style={styles.timerContainer}>
                 <Text style={{ marginLeft: 2, fontSize: 11 }}>{createdOn}</Text>
-                <Avatar.Icon icon="timer" size={30} style={{ marginLeft: 5 }} />
-                <Text style={{ marginLeft: 7 }}>clock details here</Text>
+                {/* <Avatar.Icon icon="timer" size={30} style={{ marginLeft: 5 }} />
+                <Text style={{ marginLeft: 7 }}>clock details here</Text> */}
               </View>
             </View>
           </View>

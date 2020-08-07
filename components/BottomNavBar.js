@@ -8,6 +8,7 @@ import TestComp from "./TestComp";
 import { connect } from "react-redux";
 import { initialLoadData, removeStorageData } from "../redux/actions";
 import Statistics from "../screens/Statistics";
+import Settings from "../screens/Settings";
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +26,7 @@ function BottomNavBar({ initialLoadData, tasks, removeStorageData }) {
     <Tab.Navigator
       initialRouteName="Feed"
       tabBarOptions={{
-        activeTintColor: "deepskyblue",
+        activeTintColor: colors.primary,
       }}
     >
       {/* lists screen */}
@@ -70,6 +71,17 @@ function BottomNavBar({ initialLoadData, tasks, removeStorageData }) {
       />
 
       <Tab.Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          tabBarLabel: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="settings" color={color} size={size} />
+          ),
+        }}
+      />
+
+      {/* <Tab.Screen
         name="test"
         component={TestComp}
         options={{
@@ -82,7 +94,7 @@ function BottomNavBar({ initialLoadData, tasks, removeStorageData }) {
             />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }

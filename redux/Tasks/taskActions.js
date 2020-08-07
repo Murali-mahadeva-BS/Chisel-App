@@ -14,6 +14,8 @@ import {
   UNDO_TASK_SUCCESS,
   UNDO_TASK_FAILURE,
   GET_STATS_SUCCESS,
+  SELECT_THEME_SUCCESS,
+  GET_THEME_SUCCESS,
 } from "./taskTypes";
 import { AsyncStorage } from "react-native";
 import moment from "moment";
@@ -26,6 +28,7 @@ const state = {
   tasks: [],
   completedTasks: [],
   dates: [],
+  themeColor: "",
 };
 console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 export const removeStorageData = () => async (dispatch) => {
@@ -36,11 +39,13 @@ export const removeStorageData = () => async (dispatch) => {
   };
   const referencesVal = JSON.stringify(references);
   const completedTasksVal = JSON.stringify([]);
+  const themeColorVal = JSON.stringify("");
 
   await AsyncStorage.multiSet([
     ["references", referencesVal],
     ["tasks", tasksVal],
     ["completedTasks", completedTasksVal],
+    ["themeColor", themeColorVal],
   ])
     .then((res) => {
       console.log(res);
@@ -55,21 +60,28 @@ export const removeStorageData = () => async (dispatch) => {
 // load data from async storage
 export const initialLoadData = () => async (dispatch) => {
   console.log("initail data loading...");
-  await AsyncStorage.multiGet(["references", "tasks", "completedTasks"])
+  await AsyncStorage.multiGet([
+    "references",
+    "tasks",
+    "completedTasks",
+    "themeColor",
+  ])
     .then((val) => {
       const references = val[0][1];
       const tasks = val[1][1];
       const completedTasks = val[2][1];
+      const themeColor = val[3][1];
 
       const parseReferences = JSON.parse(references);
       const parseTasks = JSON.parse(tasks);
       const parseCompletedTasks = JSON.parse(completedTasks);
+      const parseThemeColor = JSON.parse(themeColor);
 
       state.references = parseReferences;
       state.tasks = parseTasks;
       state.completedTasks = parseCompletedTasks;
+      state.themeColor = parseThemeColor;
 
-      // const dates = []
       state.tasks.map((item) => {
         if (!state.dates.includes(item.createdOn)) {
           state.dates.push(item.createdOn);
@@ -86,6 +98,7 @@ export const initialLoadData = () => async (dispatch) => {
         parseTasks,
         parseCompletedTasks,
         dates,
+        parseThemeColor,
       };
       dispatch({
         type: INITIAL_LOAD_DATA_SUCCESS,
@@ -96,7 +109,13 @@ export const initialLoadData = () => async (dispatch) => {
       console.log(err);
     });
 };
-export const addTask = ({ title, description, date }) => async (dispatch) => {
+export const addTask = ({
+  title,
+  description,
+  date,
+  category,
+  iconSelected,
+}) => async (dispatch) => {
   console.log("in add task " + date);
   const id = state.references.refID + 1;
   state.references.refID = id;
@@ -113,6 +132,8 @@ export const addTask = ({ title, description, date }) => async (dispatch) => {
     title: title,
     description: description,
     createdOn: date,
+    category: category,
+    icon: iconSelected,
   };
   state.tasks.push(finalTask);
 
@@ -308,4 +329,33 @@ export const getStats = (date) => (dispatch) => {
     type: GET_STATS_SUCCESS,
     payload: data,
   });
+};
+
+export const selectTheme = (color) => async (dispatch) => {
+  console.log("select theme...");
+  state.themeColor = color;
+  await AsyncStorage.setItem("themeColor", JSON.stringify(state.themeColor))
+    .then((val) => {
+      dispatch({
+        type: SELECT_THEME_SUCCESS,
+        payload: color,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+export const getTheme = () => async (dispatch) => {
+  console.log("get theme...");
+  await AsyncStorage.getItem("themeColor")
+    .then((val) => {
+      dispatch({
+        type: GET_THEME_SUCCESS,
+        payload: JSON.parse(val),
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };

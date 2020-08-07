@@ -6,14 +6,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { getStats } from "../redux/actions";
 import StatsTaskCard from "../components/StatsTaskCard";
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from "react-native-chart-kit";
+import { PieChart } from "react-native-chart-kit";
 function Statistics({
   getStats,
   completedTasksList,
@@ -33,6 +26,12 @@ function Statistics({
     getStats(today);
   }, []);
 
+  // if (completedTasksList.length !== 0) {
+  //   completedTasksNumber = completedTasksList.length;
+  // }
+  // if (pendingTasksList.length !== 0) {
+  //   pendingTasksNumber = pendingTasksList.length;
+  // }
   const completedTasksNumber = completedTasksList
     ? completedTasksList.length
     : 0;
@@ -49,6 +48,7 @@ function Statistics({
     let today = moment().format("MMM Do YYYY");
     getStats(today);
   };
+
   return (
     <View style={styles.container}>
       <View
@@ -81,11 +81,12 @@ function Statistics({
                   mode="outlined"
                   onPress={handleRefresh}
                   icon="backup-restore"
+                  color={colors.secondary}
                 >
                   refresh
                 </Button>
               )}
-              {!pendingTasksList.length && !completedTasksList.length && (
+              {!pendingTasksNumber && !completedTasksNumber && (
                 <Text
                   style={{
                     color: "deepskyblue",
@@ -128,11 +129,19 @@ function Statistics({
           </Card>
           <View style={{ alignItems: "center", marginVertical: 10 }}>
             {!showTaskList ? (
-              <Button mode="outlined" onPress={() => setShowTaskList(true)}>
+              <Button
+                mode="outlined"
+                onPress={() => setShowTaskList(true)}
+                color={colors.secondary}
+              >
                 Show Tasks List
               </Button>
             ) : (
-              <Button mode="outlined" onPress={() => setShowTaskList(false)}>
+              <Button
+                mode="outlined"
+                onPress={() => setShowTaskList(false)}
+                color={colors.secondary}
+              >
                 Close Tasks List
               </Button>
             )}
@@ -151,6 +160,8 @@ function Statistics({
                         id={item.id}
                         title={item.title}
                         createdOn={item.createdOn}
+                        icon={item.icon}
+                        category={item.category}
                       />
                     ))}
                   </View>
@@ -185,7 +196,11 @@ function Statistics({
       <View>
         {!visible && (
           <View style={styles.modalButton}>
-            <Button icon="calendar" onPress={showDatePicker}>
+            <Button
+              icon="calendar"
+              onPress={showDatePicker}
+              color={colors.secondary}
+            >
               select date
             </Button>
           </View>
