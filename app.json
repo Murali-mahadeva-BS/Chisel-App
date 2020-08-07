@@ -13,14 +13,18 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "A Todo app",
+    "githubUrl": "https://github.com/Murali-mahadeva-BS/Chisel-App"
+  },
+  "android": {
+    "package": "com.Chisel.ChiselApp",
+    "versionCode": 1
   }
 }

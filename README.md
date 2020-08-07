@@ -12,10 +12,14 @@ Offline Todo app, Provides statistics of all tasks created and completed.
 
 ## Preview
 
-![Tasks page](./Screenshots/1.png)
+![Tasks page ](./Screenshots/1.png)
+
 ![Tasks Create page](./Screenshots/2.png)
+
 ![Statistics page](./Screenshots/3.png)
+
 ![List of completed and pending Tasks in Stats page](./Screenshots/4.png)
+
 ![Theme options](./Screenshots/5.png)
 
 ## Future developments
