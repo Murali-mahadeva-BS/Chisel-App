@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import BottomNavBar from "./BottomNavBar";
 import { NavigationContainer } from "@react-navigation/native";
+import moment from "moment";
 import {
   Appbar,
   DefaultTheme,
@@ -43,6 +44,8 @@ function RootApp({ themeColor, getTheme }) {
             <Appbar.Content
               title="Chisel"
               titleStyle={{ alignSelf: "center" }}
+              subtitle={moment().format("MMM Do YYYY")}
+              subtitleStyle={{ alignSelf: "center" }}
             />
           </Appbar.Header>
           <NavigationContainer>
