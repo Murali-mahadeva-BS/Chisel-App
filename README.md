@@ -21,6 +21,10 @@ Offline Todo app, Provides statistics of all tasks created and completed.
   
   <img src="./Screenshots/2.png" alt="Create Tasks Screen"
 	 width="350"  />
+	 
+### Update and strike Task
+ <img src="./Screenshots/2.png" alt="Create Tasks Screen"
+	 width="350"  />
 
   ### Statistics screen
   
