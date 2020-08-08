@@ -81,17 +81,20 @@ export const initialLoadData = () => async (dispatch) => {
       state.tasks = parseTasks;
       state.completedTasks = parseCompletedTasks;
       state.themeColor = parseThemeColor;
-
-      state.tasks.map((item) => {
-        if (!state.dates.includes(item.createdOn)) {
-          state.dates.push(item.createdOn);
-        }
-      });
-      state.completedTasks.map((item) => {
-        if (!state.dates.includes(item.createdOn)) {
-          state.dates.push(item.createdOn);
-        }
-      });
+      if (state.tasks.length) {
+        state.tasks.map((item) => {
+          if (!state.dates.includes(item.createdOn)) {
+            state.dates.push(item.createdOn);
+          }
+        });
+      }
+      if (state.completedTasks.length) {
+        state.completedTasks.map((item) => {
+          if (!state.dates.includes(item.createdOn)) {
+            state.dates.push(item.createdOn);
+          }
+        });
+      }
       const dates = state.dates;
       const initData = {
         parseReferences,
@@ -100,6 +103,7 @@ export const initialLoadData = () => async (dispatch) => {
         dates,
         parseThemeColor,
       };
+
       dispatch({
         type: INITIAL_LOAD_DATA_SUCCESS,
         payload: initData,
@@ -233,26 +237,31 @@ export const strikeTask = (id) => async (dispatch) => {
   state.tasks.splice(delIndex, 1);
   const tasks = state.tasks;
   const completedTasks = state.completedTasks;
-
-  state.completedTasks.map((item) => {
-    if (!state.dates.includes(item.createdOn)) {
-      state.dates.push(item.createdOn);
-    }
-  });
+  if (state.completedTasks.length) {
+    state.completedTasks.map((item) => {
+      if (!state.dates.includes(item.createdOn)) {
+        state.dates.push(item.createdOn);
+      }
+    });
+  }
   const dates = state.dates;
 
   const completedTasksList = [];
   const pendingTasksList = [];
-  state.tasks.map((item) => {
-    if (item.createdOn == date) {
-      pendingTasksList.push(item);
-    }
-  });
-  state.completedTasks.map((item) => {
-    if (item.createdOn == date) {
-      completedTasksList.push(item);
-    }
-  });
+  if (state.tasks.length) {
+    state.tasks.map((item) => {
+      if (item.createdOn == date) {
+        pendingTasksList.push(item);
+      }
+    });
+  }
+  if (state.completedTasks.length) {
+    state.completedTasks.map((item) => {
+      if (item.createdOn == date) {
+        completedTasksList.push(item);
+      }
+    });
+  }
   const data = {
     tasks,
     completedTasks,
@@ -314,16 +323,20 @@ export const undoTask = (id) => async (dispatch) => {
 export const getStats = (date) => (dispatch) => {
   const completedTasksList = [];
   const pendingTasksList = [];
-  state.tasks.map((item) => {
-    if (item.createdOn == date) {
-      pendingTasksList.push(item);
-    }
-  });
-  state.completedTasks.map((item) => {
-    if (item.createdOn == date) {
-      completedTasksList.push(item);
-    }
-  });
+  if (state.tasks.length) {
+    state.tasks.map((item) => {
+      if (item.createdOn == date) {
+        pendingTasksList.push(item);
+      }
+    });
+  }
+  if (state.completedTasks.length) {
+    state.completedTasks.map((item) => {
+      if (item.createdOn == date) {
+        completedTasksList.push(item);
+      }
+    });
+  }
   const data = { completedTasksList, pendingTasksList, date };
   return dispatch({
     type: GET_STATS_SUCCESS,

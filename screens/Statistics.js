@@ -149,7 +149,7 @@ function Statistics({
           {showTaskList && (
             <View>
               <View style={styles.pendingTasksList}>
-                {pendingTasksList ? (
+                {pendingTasksNumber ? (
                   <View>
                     <Text style={styles.noTaskMsg}>
                       {pendingTasksNumber} Pending Task
@@ -170,7 +170,7 @@ function Statistics({
                 )}
               </View>
               <View style={styles.completedTasksList}>
-                {completedTasksList ? (
+                {completedTasksNumber ? (
                   <View>
                     <Text style={styles.noTaskMsg}>
                       {completedTasksNumber} completed Task

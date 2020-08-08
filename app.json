@@ -4,9 +4,9 @@
     "slug": "chisel-project",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/chiselman.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/chiselman.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,10 +21,9 @@
       "favicon": "./assets/favicon.png"
     },
     "description": "A Todo app",
-    "githubUrl": "https://github.com/Murali-mahadeva-BS/Chisel-App"
-  },
-  "android": {
-    "package": "com.Chisel.ChiselApp",
-    "versionCode": 1
+    "githubUrl": "https://github.com/Murali-mahadeva-BS/Chisel-App",
+    "android": {
+      "package": "com.Chisel.ChiselApp"
+    }
   }
 }
