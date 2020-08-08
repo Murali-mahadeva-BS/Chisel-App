@@ -12,6 +12,7 @@ Offline Todo app, Provides statistics of all tasks created and completed.
 
 ## Preview
 
+<<<<<<< HEAD
 ### Task list screen
 
 <img src="./Screenshots/1.png" alt="Task list screen"
@@ -40,6 +41,35 @@ Offline Todo app, Provides statistics of all tasks created and completed.
 ### Theme setting
 
 <img src="./Screenshots/5.png" alt="Theme"
+=======
+### Task list screen	
+
+<img src="./Screenshots/1.png" alt="Task list screen"
+	 width="350"  />
+ 
+  ### Create Task screen
+  
+  <img src="./Screenshots/2.png" alt="Create Tasks Screen"
+	 width="350"  />
+	 
+### Update and strike Task
+ <img src="./Screenshots/2.png" alt="Create Tasks Screen"
+	 width="350"  />
+
+  ### Statistics screen
+  
+  <img src="./Screenshots/3.png" alt="Statistics screen"
+	 width="350"  />
+  
+  ###  List of completed and pending Tasks in Stats page
+  
+  <img src="./Screenshots/4.png" alt="List of completed and pending Tasks in Stats page"
+	 width="350"  />
+	 
+### Theme setting
+
+  <img src="./Screenshots/5.png" alt="Theme"
+>>>>>>> ceed33977b32521bb522a83bf889df8d553f11bf
 	 width="350"  />
 
 ## Future developments
