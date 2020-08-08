@@ -53,7 +53,6 @@ export const removeStorageData = () => async (dispatch) => {
     .catch((err) => {
       console.log(err);
     });
-  console.log("references in storefw" + referencesVal);
   console.log("storage cleared...");
 };
 
@@ -100,8 +99,6 @@ export const initialLoadData = () => async (dispatch) => {
         state.themeColor = "";
       }
 
-      console.log("tasks " + parseTasks);
-
       if (state.tasks.length) {
         state.tasks.map((item) => {
           if (!state.dates.includes(item.createdOn)) {
@@ -116,7 +113,6 @@ export const initialLoadData = () => async (dispatch) => {
           }
         });
       }
-      console.log("state" + state.tasks);
       const dates = state.dates;
 
       const initData = {

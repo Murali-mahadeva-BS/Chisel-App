@@ -30,7 +30,6 @@ const taskReducer = (state = initialstate, action) => {
       state.completedTasks = action.payload.parseCompletedTasks;
       state.dates = action.payload.dates;
       state.themeColor = action.payload.parseThemeColor;
-      console.log("in reducer" + action.payload.parseTasks);
       return {
         ...state,
         tasks: [...action.payload.parseTasks],
