@@ -26,12 +26,6 @@ function Statistics({
     getStats(today);
   }, []);
 
-  // if (completedTasksList.length !== 0) {
-  //   completedTasksNumber = completedTasksList.length;
-  // }
-  // if (pendingTasksList.length !== 0) {
-  //   pendingTasksNumber = pendingTasksList.length;
-  // }
   const completedTasksNumber = completedTasksList
     ? completedTasksList.length
     : 0;
@@ -127,25 +121,27 @@ function Statistics({
               absolute //for the absolute number remove if you want percentage
             />
           </Card>
-          <View style={{ alignItems: "center", marginVertical: 10 }}>
-            {!showTaskList ? (
-              <Button
-                mode="outlined"
-                onPress={() => setShowTaskList(true)}
-                color={colors.secondary}
-              >
-                Show Tasks List
-              </Button>
-            ) : (
-              <Button
-                mode="outlined"
-                onPress={() => setShowTaskList(false)}
-                color={colors.secondary}
-              >
-                Close Tasks List
-              </Button>
-            )}
-          </View>
+          {completedTasksNumber || pendingTasksNumber ? (
+            <View style={{ alignItems: "center", marginVertical: 10 }}>
+              {!showTaskList ? (
+                <Button
+                  mode="outlined"
+                  onPress={() => setShowTaskList(true)}
+                  color={colors.secondary}
+                >
+                  Show Tasks List
+                </Button>
+              ) : (
+                <Button
+                  mode="outlined"
+                  onPress={() => setShowTaskList(false)}
+                  color={colors.secondary}
+                >
+                  Close Tasks List
+                </Button>
+              )}
+            </View>
+          ) : null}
           {showTaskList && (
             <View>
               <View style={styles.pendingTasksList}>

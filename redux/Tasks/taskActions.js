@@ -76,11 +76,32 @@ export const initialLoadData = () => async (dispatch) => {
       const parseTasks = JSON.parse(tasks);
       const parseCompletedTasks = JSON.parse(completedTasks);
       const parseThemeColor = JSON.parse(themeColor);
+      if (parseReferences) {
+        state.references = parseReferences;
+      } else {
+        state.references = {
+          refID: 0,
+          startDate: null,
+        };
+      }
+      if (parseTasks) {
+        state.tasks = parseTasks;
+      } else {
+        state.tasks = [];
+      }
+      if (parseCompletedTasks) {
+        state.completedTasks = parseCompletedTasks;
+      } else {
+        state.completedTasks = [];
+      }
+      if (parseThemeColor) {
+        state.themeColor = parseThemeColor;
+      } else {
+        state.themeColor = "";
+      }
 
-      state.references = parseReferences;
-      state.tasks = parseTasks;
-      state.completedTasks = parseCompletedTasks;
-      state.themeColor = parseThemeColor;
+      console.log("tasks " + parseTasks);
+
       if (state.tasks.length) {
         state.tasks.map((item) => {
           if (!state.dates.includes(item.createdOn)) {
@@ -95,13 +116,14 @@ export const initialLoadData = () => async (dispatch) => {
           }
         });
       }
+      console.log("state" + state.tasks);
       const dates = state.dates;
+
       const initData = {
-        parseReferences,
-        parseTasks,
-        parseCompletedTasks,
-        dates,
-        parseThemeColor,
+        parseReferences: state.references,
+        parseTasks: state.tasks,
+        parseCompletedTasks: state.completedTasks,
+        parseThemeColor: state.themeColor,
       };
 
       dispatch({
@@ -112,6 +134,7 @@ export const initialLoadData = () => async (dispatch) => {
     .catch((err) => {
       console.log(err);
     });
+  console.log("initial data loaded...");
 };
 export const addTask = ({
   title,

@@ -22,7 +22,7 @@ import { connect } from "react-redux";
 import { addTask } from "../redux/actions";
 import IconsRender from "../components/IconsRender";
 
-function CreateTask({ addTask }) {
+function CreateTask({ addTask, navigation }) {
   const { colors } = useTheme();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -43,6 +43,7 @@ function CreateTask({ addTask }) {
     setDescription("");
     setCategory("");
     setIconSelected("");
+    navigation.navigate("Tasks");
   };
   const iconNumbers = [
     1,
